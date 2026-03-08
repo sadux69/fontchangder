@@ -1,64 +1,100 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Font Changer</title>
+<meta charset="UTF-8">
+<title>SADU Font Changer</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Pacifico&family=Orbitron&display=swap" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto&family=Pacifico&family=Orbitron&family=Monoton&family=Poppins&display=swap" rel="stylesheet">
 
-    <style>
-        body {
-            text-align: center;
-            font-family: Arial;
-            margin-top: 50px;
-            background: #111;
-            color: white;
-        }
+<style>
+/* Background + body */
+body {
+    background: linear-gradient(135deg, red, black); /* Red + Black gradient */
+    color: white;
+    text-align: center;
+    font-family: Poppins;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
-        input {
-            padding: 10px;
-            font-size: 20px;
-        }
+/* Heading */
+h1 {
+    font-size: 50px;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 8px #000;
+}
 
-        select {
-            padding: 10px;
-            font-size: 18px;
-        }
+/* Input box */
+input {
+    padding: 12px 15px;
+    font-size: 22px;
+    width: 300px;
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 20px;
+    outline: none;
+}
 
-        #text {
-            font-size: 40px;
-            margin-top: 20px;
-        }
-    </style>
+/* Font selector dropdown */
+select {
+    padding: 10px 15px;
+    font-size: 20px;
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 30px;
+    outline: none;
+}
+
+/* Display text */
+#text {
+    font-size: 50px;
+    margin-top: 20px;
+    text-shadow: 2px 2px 8px #000;
+    transition: all 0.3s ease;
+}
+
+/* Hover effect */
+#text:hover {
+    transform: scale(1.05);
+    color: #ffcc00;
+}
+</style>
 </head>
 
 <body>
 
-<h1>Online Font Changer</h1>
+<h1>SADU FONT CHANGER</h1>
 
-<input type="text" id="inputText" placeholder="Type text here">
+<input id="inputText" placeholder="Type here...">
 
-<br><br>
+<br>
 
-<select onchange="changeFont()" id="fontSelect">
-    <option value="Arial">Arial</option>
+<select id="fontSelect" onchange="changeFont()">
+    <option value="Poppins">Poppins</option>
     <option value="Roboto">Roboto</option>
     <option value="Pacifico">Pacifico</option>
     <option value="Orbitron">Orbitron</option>
+    <option value="Monoton">Monoton</option>
 </select>
 
 <div id="text">Sample Text</div>
 
 <script>
-
+// Update text while typing
 document.getElementById("inputText").addEventListener("input", function(){
     document.getElementById("text").innerText = this.value;
 });
 
+// Change font function
 function changeFont() {
     var font = document.getElementById("fontSelect").value;
     document.getElementById("text").style.fontFamily = font;
 }
-
 </script>
 
 </body>
