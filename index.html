@@ -2,35 +2,46 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>SADU Font Changer</title>
+<title>SADU Ultra Fancy Font Changer</title>
 
 <!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Roboto&family=Pacifico&family=Orbitron&family=Monoton&family=Poppins&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala&family=Baloo+2&family=Roboto&family=Pacifico&family=Orbitron&family=Monoton&family=Poppins&display=swap" rel="stylesheet">
 
 <!-- html2canvas library for saving image -->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <style>
+/* Animated gradient background */
 body{
-    background: linear-gradient(135deg, red, black);
-    color: white;
-    text-align: center;
-    font-family: Poppins;
     margin: 0;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    font-family: Poppins;
+    color: white;
+    background: linear-gradient(270deg, #ff0000, #000000, #ff0000);
+    background-size: 600% 600%;
+    animation: gradientBG 20s ease infinite;
+    overflow: hidden;
 }
 
+@keyframes gradientBG {
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+/* Heading */
 h1{
     font-size: 50px;
     margin-bottom: 20px;
-    text-shadow: 2px 2px 8px #000;
+    text-shadow: 2px 2px 10px #000;
 }
 
-input, select{
+/* Input / select styling */
+input, select, button{
     padding: 10px 15px;
     font-size: 18px;
     border-radius: 8px;
@@ -39,18 +50,34 @@ input, select{
     outline: none;
 }
 
+/* Text display */
 #text{
     font-size: 50px;
     margin-top: 30px;
     text-shadow: 2px 2px 8px #000;
     transition: all 0.3s ease;
+    position: relative;
+}
+
+/* Glitter animation */
+.glitter {
+    background: linear-gradient(90deg, #fff, #ffd700, #fff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glitterAnim 2s infinite;
+}
+
+@keyframes glitterAnim {
+    0%{background-position:0% 0%;}
+    50%{background-position:100% 0%;}
+    100%{background-position:0% 0%;}
 }
 
 #text:hover{
-    transform: scale(1.05);
-    color: #ffcc00;
+    transform: scale(1.08);
 }
 
+/* Controls container */
 .controls{
     display: flex;
     flex-wrap: wrap;
@@ -66,7 +93,7 @@ input, select{
 
 <body>
 
-<h1>SADU FONT CHANGER</h1>
+<h1>SADU Ultra Fancy Font Changer</h1>
 
 <div class="controls">
     <div>
@@ -80,17 +107,14 @@ input, select{
             <option value="Pacifico">Pacifico</option>
             <option value="Orbitron">Orbitron</option>
             <option value="Monoton">Monoton</option>
+            <option value="Noto Sans Sinhala">Noto Sans Sinhala</option>
+            <option value="Baloo 2">Baloo 2</option>
         </select>
     </div>
 
     <div>
         <label>Text Color:</label>
         <input type="color" id="colorPicker" value="#ffffff">
-    </div>
-
-    <div>
-        <label>Background Color:</label>
-        <input type="color" id="bgPicker" value="#ff0000">
     </div>
 
     <div>
@@ -104,11 +128,16 @@ input, select{
     </div>
 
     <div>
+        <label>Glitter Effect:</label>
+        <input type="checkbox" id="glitterToggle">
+    </div>
+
+    <div>
         <button id="saveBtn">Save as Image</button>
     </div>
 </div>
 
-<div id="text">Sample Text</div>
+<div id="text">ආයුබෝවන්!</div>
 
 <script>
 // Update text
@@ -126,11 +155,6 @@ document.getElementById("colorPicker").addEventListener("input", function(){
     document.getElementById("text").style.color = this.value;
 });
 
-// Background color
-document.getElementById("bgPicker").addEventListener("input", function(){
-    document.body.style.background = this.value;
-});
-
 // Font size
 document.getElementById("fontSizeSlider").addEventListener("input", function(){
     document.getElementById("text").style.fontSize = this.value + "px";
@@ -142,6 +166,15 @@ document.getElementById("shadowToggle").addEventListener("change", function(){
         document.getElementById("text").style.textShadow = "2px 2px 8px #000";
     } else {
         document.getElementById("text").style.textShadow = "none";
+    }
+});
+
+// Glitter effect toggle
+document.getElementById("glitterToggle").addEventListener("change", function(){
+    if(this.checked){
+        document.getElementById("text").classList.add("glitter");
+    } else {
+        document.getElementById("text").classList.remove("glitter");
     }
 });
 
