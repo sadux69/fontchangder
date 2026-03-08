@@ -109,7 +109,43 @@ animation:g 2s infinite;
 0%{background-position:0%}
 100%{background-position:100%}
 }
+.popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:5;
+}
 
+.popupBox{
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(15px);
+padding:20px;
+border-radius:15px;
+color:white;
+max-height:70vh;
+overflow:auto;
+}
+
+.popup table{
+border-collapse:collapse;
+width:200px;
+}
+
+.popup td{
+padding:10px;
+border-bottom:1px solid white;
+cursor:pointer;
+}
+
+.popup td:hover{
+background:rgba(255,255,255,0.2);
+}
 </style>
 </head>
 <body>
@@ -124,7 +160,9 @@ animation:g 2s infinite;
 
 <input id="inputText" placeholder="Type">
 
-<select id="fontSelect">
+<div>
+<button id="openFonts">Choose Font</button>
+</div>
 <option value="Poppins">Poppins</option>
 <option value="Roboto">Roboto</option>
 <option value="Pacifico">Pacifico</option>
@@ -242,8 +280,44 @@ requestAnimationFrame(draw)
 }
 
 draw()
+document.getElementById("openFonts").onclick = function(){
+document.getElementById("fontPopup").style.display="flex";
+}
 
+function closePopup(){
+document.getElementById("fontPopup").style.display="none";
+}
+
+function setFont(f){
+document.getElementById("text").style.fontFamily=f;
+closePopup();
+}
 </script>
+<div id="fontPopup" class="popup">
 
+<div class="popupBox">
+
+<h2>Choose Font</h2>
+
+<table>
+
+<tr><td onclick="setFont('Poppins')" style="font-family:Poppins">Poppins</td></tr>
+<tr><td onclick="setFont('Roboto')" style="font-family:Roboto">Roboto</td></tr>
+<tr><td onclick="setFont('Pacifico')" style="font-family:Pacifico">Pacifico</td></tr>
+<tr><td onclick="setFont('Orbitron')" style="font-family:Orbitron">Orbitron</td></tr>
+<tr><td onclick="setFont('Monoton')" style="font-family:Monoton">Monoton</td></tr>
+<tr><td onclick="setFont('Lobster')" style="font-family:Lobster">Lobster</td></tr>
+<tr><td onclick="setFont('Bangers')" style="font-family:Bangers">Bangers</td></tr>
+<tr><td onclick="setFont('Anton')" style="font-family:Anton">Anton</td></tr>
+<tr><td onclick="setFont('Comfortaa')" style="font-family:Comfortaa">Comfortaa</td></tr>
+<tr><td onclick="setFont('Rubik Glitch')" style="font-family:'Rubik Glitch'">Rubik Glitch</td></tr>
+<tr><td onclick="setFont('Silkscreen')" style="font-family:Silkscreen">Silkscreen</td></tr>
+
+</table>
+
+<button onclick="closePopup()">Close</button>
+
+</div>
+</div>
 </body>
 </html>
