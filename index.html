@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Font Changer</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Pacifico&family=Orbitron&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial;
+            margin-top: 50px;
+            background: #111;
+            color: white;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 20px;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 18px;
+        }
+
+        #text {
+            font-size: 40px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Online Font Changer</h1>
+
+<input type="text" id="inputText" placeholder="Type text here">
+
+<br><br>
+
+<select onchange="changeFont()" id="fontSelect">
+    <option value="Arial">Arial</option>
+    <option value="Roboto">Roboto</option>
+    <option value="Pacifico">Pacifico</option>
+    <option value="Orbitron">Orbitron</option>
+</select>
+
+<div id="text">Sample Text</div>
+
+<script>
+
+document.getElementById("inputText").addEventListener("input", function(){
+    document.getElementById("text").innerText = this.value;
+});
+
+function changeFont() {
+    var font = document.getElementById("fontSelect").value;
+    document.getElementById("text").style.fontFamily = font;
+}
+
+</script>
+
+</body>
+</html>
