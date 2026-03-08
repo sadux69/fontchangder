@@ -7,10 +7,12 @@
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Pacifico&family=Orbitron&family=Monoton&family=Poppins&display=swap" rel="stylesheet">
 
+<!-- html2canvas library for saving image -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
 <style>
-/* Background + body */
-body {
-    background: linear-gradient(135deg, red, black); /* Red + Black gradient */
+body{
+    background: linear-gradient(135deg, red, black);
     color: white;
     text-align: center;
     font-family: Poppins;
@@ -22,46 +24,42 @@ body {
     justify-content: center;
 }
 
-/* Heading */
-h1 {
+h1{
     font-size: 50px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     text-shadow: 2px 2px 8px #000;
 }
 
-/* Input box */
-input {
-    padding: 12px 15px;
-    font-size: 22px;
-    width: 300px;
-    border-radius: 8px;
-    border: none;
-    margin-bottom: 20px;
-    outline: none;
-}
-
-/* Font selector dropdown */
-select {
+input, select{
     padding: 10px 15px;
-    font-size: 20px;
+    font-size: 18px;
     border-radius: 8px;
     border: none;
-    margin-bottom: 30px;
+    margin: 10px;
     outline: none;
 }
 
-/* Display text */
-#text {
+#text{
     font-size: 50px;
-    margin-top: 20px;
+    margin-top: 30px;
     text-shadow: 2px 2px 8px #000;
     transition: all 0.3s ease;
 }
 
-/* Hover effect */
-#text:hover {
+#text:hover{
     transform: scale(1.05);
     color: #ffcc00;
+}
+
+.controls{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.controls div{
+    margin: 5px 10px;
 }
 </style>
 </head>
@@ -70,31 +68,92 @@ select {
 
 <h1>SADU FONT CHANGER</h1>
 
-<input id="inputText" placeholder="Type here...">
+<div class="controls">
+    <div>
+        <input type="text" id="inputText" placeholder="Type here...">
+    </div>
 
-<br>
+    <div>
+        <select id="fontSelect">
+            <option value="Poppins">Poppins</option>
+            <option value="Roboto">Roboto</option>
+            <option value="Pacifico">Pacifico</option>
+            <option value="Orbitron">Orbitron</option>
+            <option value="Monoton">Monoton</option>
+        </select>
+    </div>
 
-<select id="fontSelect" onchange="changeFont()">
-    <option value="Poppins">Poppins</option>
-    <option value="Roboto">Roboto</option>
-    <option value="Pacifico">Pacifico</option>
-    <option value="Orbitron">Orbitron</option>
-    <option value="Monoton">Monoton</option>
-</select>
+    <div>
+        <label>Text Color:</label>
+        <input type="color" id="colorPicker" value="#ffffff">
+    </div>
+
+    <div>
+        <label>Background Color:</label>
+        <input type="color" id="bgPicker" value="#ff0000">
+    </div>
+
+    <div>
+        <label>Font Size:</label>
+        <input type="range" id="fontSizeSlider" min="20" max="100" value="50">
+    </div>
+
+    <div>
+        <label>Text Shadow:</label>
+        <input type="checkbox" id="shadowToggle" checked>
+    </div>
+
+    <div>
+        <button id="saveBtn">Save as Image</button>
+    </div>
+</div>
 
 <div id="text">Sample Text</div>
 
 <script>
-// Update text while typing
+// Update text
 document.getElementById("inputText").addEventListener("input", function(){
     document.getElementById("text").innerText = this.value;
 });
 
-// Change font function
-function changeFont() {
-    var font = document.getElementById("fontSelect").value;
-    document.getElementById("text").style.fontFamily = font;
-}
+// Change font
+document.getElementById("fontSelect").addEventListener("change", function(){
+    document.getElementById("text").style.fontFamily = this.value;
+});
+
+// Text color
+document.getElementById("colorPicker").addEventListener("input", function(){
+    document.getElementById("text").style.color = this.value;
+});
+
+// Background color
+document.getElementById("bgPicker").addEventListener("input", function(){
+    document.body.style.background = this.value;
+});
+
+// Font size
+document.getElementById("fontSizeSlider").addEventListener("input", function(){
+    document.getElementById("text").style.fontSize = this.value + "px";
+});
+
+// Text shadow toggle
+document.getElementById("shadowToggle").addEventListener("change", function(){
+    if(this.checked){
+        document.getElementById("text").style.textShadow = "2px 2px 8px #000";
+    } else {
+        document.getElementById("text").style.textShadow = "none";
+    }
+});
+
+// Save as image
+document.getElementById("saveBtn").addEventListener("click", function(){
+    html2canvas(document.getElementById("text")).then(function(canvas){
+        let link = document.createElement("a");
+        link.download = "text-image.png";
+        link.href = canvas.toDataURL();
+        link.click();
+    });
+});
 </script>
 
 </body>
