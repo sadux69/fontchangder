@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>SADU Ultimate Font Changer</title>
+<title>SADU Font Changer Ultimate Pro</title>
 
 <!-- Google Fonts + Sinhala -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&family=Noto+Sans+Sinhala&family=Pacifico&family=Orbitron&family=Monoton&family=Lobster&family=Bangers&family=Anton&family=Comfortaa&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&family=Pacifico&family=Orbitron&family=Monoton&family=Lobster&family=Bangers&family=Anton&family=Comfortaa&family=Rubik+Glitch&family=Silkscreen&family=Noto+Sans+Sinhala&family=Baloo+2&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
@@ -13,7 +13,7 @@
 body{
   margin:0;font-family:Poppins;color:white;overflow:hidden;
   background: linear-gradient(270deg,#ff0000,#000,#ff0000);
-  background-size:600% 600%;animation:bg 15s infinite;
+  background-size:600% 600%;animation:bg 20s linear infinite;
   display:flex;flex-direction:column;align-items:center;
 }
 @keyframes bg{0%{background-position:0%}50%{background-position:100%}100%{background-position:0%}}
@@ -25,7 +25,7 @@ nav{
 }
 nav button{
   margin:0 10px;padding:10px 20px;border:none;border-radius:20px;
-  background:rgba(255,255,255,0.1);color:white;cursor:pointer;
+  background:rgba(255,255,255,0.1);color:white;cursor:pointer;backdrop-filter:blur(5px);
 }
 nav button:hover{background:rgba(255,255,255,0.2);}
 
@@ -44,17 +44,20 @@ input,button{
   padding:10px;margin:5px;border-radius:20px;
   border:1px solid rgba(255,255,255,0.3);
   background:rgba(255,255,255,0.1);color:white;cursor:pointer;
+  backdrop-filter:blur(5px);
 }
 
 #text{
-  font-size:50px;margin-top:20px;text-align:center;text-shadow:2px 2px 10px #000;
+  font-size:50px;margin-top:20px;text-align:center;
+  text-shadow:2px 2px 15px #0ff;
+  transition:0.3s;
 }
 .popup{
   position:fixed;top:0;left:0;width:100%;height:100%;
-  background:rgba(0,0,0,0.7);display:none;justify-content:center;align-items:center;
+  background:rgba(0,0,0,0.8);display:none;justify-content:center;align-items:center;
 }
 .popupBox{
-  background:rgba(255,255,255,0.1);padding:20px;border-radius:15px;
+  background:rgba(0,0,0,0.2);padding:20px;border-radius:15px;
   backdrop-filter:blur(15px);max-height:70vh;overflow:auto;color:white;
 }
 .popup td{
@@ -63,12 +66,21 @@ input,button{
 .popup td:hover{background:rgba(255,255,255,0.2);}
 #fontSearch{padding:5px;width:90%;margin-bottom:10px;border-radius:10px;border:none;}
 canvas{position:fixed;top:0;left:0;z-index:-1;}
+
 .gradientText{
-  background:linear-gradient(45deg,#ff0,#f0f,#0ff);
+  background:linear-gradient(45deg,#ff0,#f0f,#0ff,#0f0,#f0f);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  animation:gradAnim 3s infinite;
+  animation:gradAnim 3s linear infinite;
 }
 @keyframes gradAnim{0%{background-position:0%}50%{background-position:100%}100%{background-position:0%}}
+
+.neonGlow{
+  text-shadow:
+    0 0 5px #0ff,
+    0 0 10px #0ff,
+    0 0 20px #0ff,
+    0 0 40px #0ff;
+}
 </style>
 </head>
 <body>
@@ -84,23 +96,24 @@ canvas{position:fixed;top:0;left:0;z-index:-1;}
 
 <!-- Home Section -->
 <section id="home" class="active">
-<h1>SADU Font Changer Pro</h1>
+<h1>SADU Ultimate Pro</h1>
 <div class="controls">
 <input id="inputText" placeholder="Type text">
 <button id="openFonts">Fonts</button>
 <input type="color" id="colorPicker">
 <input type="range" id="sizeSlider" min="20" max="120" value="50">
 <button id="gradientBtn">Gradient</button>
+<button id="neonBtn">Neon Glow</button>
 <button id="copyBtn">Copy</button>
 <button id="saveBtn">Save</button>
 </div>
-<div id="text">Hello</div>
+<div id="text">ආයුබෝවන්!</div>
 </section>
 
 <!-- About Section -->
 <section id="about">
 <h1>About</h1>
-<p>Advanced online font changer tool with Sinhala fonts support, gradient text, neon glow, copy & save image features.</p>
+<p>This is the most advanced online font changer with Sinhala support, neon glow, gradient, copy & save image.</p>
 </section>
 
 <!-- Contact Section -->
@@ -125,13 +138,13 @@ canvas{position:fixed;top:0;left:0;z-index:-1;}
 </div>
 
 <script>
-// --- Page switching
+// --- Page switch
 function showSection(id){
 document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-// --- Home controls
+// --- Controls
 const inputText=document.getElementById("inputText");
 const text=document.getElementById("text");
 const colorPicker=document.getElementById("colorPicker");
@@ -139,11 +152,13 @@ const sizeSlider=document.getElementById("sizeSlider");
 const copyBtn=document.getElementById("copyBtn");
 const saveBtn=document.getElementById("saveBtn");
 const gradientBtn=document.getElementById("gradientBtn");
+const neonBtn=document.getElementById("neonBtn");
 
 inputText.oninput=()=>text.innerText=inputText.value;
 colorPicker.oninput=()=>text.style.color=colorPicker.value;
 sizeSlider.oninput=()=>text.style.fontSize=sizeSlider.value+"px";
 gradientBtn.onclick=()=>text.classList.toggle("gradientText");
+neonBtn.onclick=()=>text.classList.toggle("neonGlow");
 
 copyBtn.onclick=()=>{navigator.clipboard.writeText(text.innerText);alert("Text copied!");}
 saveBtn.onclick=()=>{html2canvas(text).then(c=>{let a=document.createElement("a");a.href=c.toDataURL();a.download="text.png";a.click();});}
@@ -153,7 +168,7 @@ const fontPopup=document.getElementById("fontPopup");
 document.getElementById("openFonts").onclick=()=>fontPopup.style.display="flex";
 function closePopup(){fontPopup.style.display="none";}
 const fontTable=document.getElementById("fontTable");
-let fonts=["Poppins","Roboto","Pacifico","Orbitron","Monoton","Lobster","Bangers","Anton","Comfortaa","Rubik Glitch","Silkscreen","Noto Sans Sinhala"];
+let fonts=["Poppins","Roboto","Pacifico","Orbitron","Monoton","Lobster","Bangers","Anton","Comfortaa","Rubik Glitch","Silkscreen","Noto Sans Sinhala","Baloo 2"];
 
 function renderFonts(filter=""){
 fontTable.innerHTML="";
@@ -183,7 +198,7 @@ renderFonts();document.getElementById("addFontInput").value="";
 // --- Bubble background
 let canvas=document.getElementById("bg");let ctx=canvas.getContext("2d");
 canvas.width=innerWidth;canvas.height=innerHeight;let bubbles=[];
-for(let i=0;i<120;i++){bubbles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*3+1,dy:Math.random()+0.3});}
+for(let i=0;i<150;i++){bubbles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*3+1,dy:Math.random()+0.3});}
 function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);
 bubbles.forEach(b=>{ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.fillStyle="white";ctx.fill();b.y-=b.dy;if(b.y<0)b.y=canvas.height;});
 requestAnimationFrame(draw);}
