@@ -74,13 +74,7 @@ canvas{position:fixed;top:0;left:0;z-index:-1;}
 }
 @keyframes gradAnim{0%{background-position:0%}50%{background-position:100%}100%{background-position:0%}}
 
-.neonGlow{
-  text-shadow:
-    0 0 5px #0ff,
-    0 0 10px #0ff,
-    0 0 20px #0ff,
-    0 0 40px #0ff;
-}
+
 </style>
 </head>
 <body>
@@ -103,9 +97,9 @@ canvas{position:fixed;top:0;left:0;z-index:-1;}
 <input type="color" id="colorPicker">
 <input type="range" id="sizeSlider" min="20" max="120" value="50">
 <button id="gradientBtn">Gradient</button>
-<button id="neonBtn">Neon Glow</button>
 <button id="copyBtn">Copy</button>
 <button id="saveBtn">Save</button>
+<button onclick="openSymbolsPopup()">Symbols</button>
 </div>
 <div id="text">ආයුබෝවන්!</div>
 </section>
@@ -152,13 +146,11 @@ const sizeSlider=document.getElementById("sizeSlider");
 const copyBtn=document.getElementById("copyBtn");
 const saveBtn=document.getElementById("saveBtn");
 const gradientBtn=document.getElementById("gradientBtn");
-const neonBtn=document.getElementById("neonBtn");
 
 inputText.oninput=()=>text.innerText=inputText.value;
 colorPicker.oninput=()=>text.style.color=colorPicker.value;
 sizeSlider.oninput=()=>text.style.fontSize=sizeSlider.value+"px";
 gradientBtn.onclick=()=>text.classList.toggle("gradientText");
-neonBtn.onclick=()=>text.classList.toggle("neonGlow");
 
 copyBtn.onclick=()=>{navigator.clipboard.writeText(text.innerText);alert("Text copied!");}
 saveBtn.onclick=()=>{html2canvas(text).then(c=>{let a=document.createElement("a");a.href=c.toDataURL();a.download="text.png";a.click();});}
@@ -203,7 +195,62 @@ function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);
 bubbles.forEach(b=>{ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.fillStyle="white";ctx.fill();b.y-=b.dy;if(b.y<0)b.y=canvas.height;});
 requestAnimationFrame(draw);}
 draw();
-</script>
+  const symbolsPopup = document.getElementById("symbolsPopup");
+const symbolTable = document.getElementById("symbolTable");
 
+// Example symbols – ඔයාට අවශ්‍ය symbols මෙහි add කරන්න
+let symbols = ["★","☆","✦","✧","❤","❀","✿","☯","☀","☁","☂","☾","☽","⚡","☘","☕","❄","♞","♪","♫"];
+
+// Render symbols table
+function renderSymbols(filter=""){
+  symbolTable.innerHTML = "";
+  symbols.filter(s => s.includes(filter)).forEach(s=>{
+    let row = document.createElement("tr");
+    row.innerHTML = `<td style="font-size:24px" onclick="addSymbol('${s}')">${s}</td>`;
+    symbolTable.appendChild(row);
+  });
+}
+
+// Open / Close popup
+function openSymbolsPopup(){ 
+  symbolsPopup.style.display="flex"; 
+  renderSymbols();
+}
+function closeSymbolsPopup(){ symbolsPopup.style.display="none"; }
+
+// Add symbol to text
+function addSymbol(s){
+  const input = document.getElementById("inputText");
+  input.value += s;
+  document.getElementById("text").innerText = input.value;
+}
+
+// Optional: Symbol search
+document.getElementById("symbolSearch").oninput = ()=> renderSymbols(document.getElementById("symbolSearch").value);
+  #symbolsPopup{
+  display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,0.8);justify-content:center;align-items:center;z-index:20;
+}
+#symbolsPopup .popupBox{
+  background:rgba(0,0,0,0.2);padding:20px;border-radius:15px;
+  backdrop-filter:blur(15px);max-height:70vh;overflow:auto;color:white;
+}
+#symbolTable td{
+  padding:10px;cursor:pointer;border-bottom:1px solid white;
+}
+#symbolTable td:hover{background:rgba(255,255,255,0.2);}
+#symbolSearch{
+  padding:5px;width:90%;margin-bottom:10px;border-radius:10px;border:none;
+}
+
+</script>
+<div id="symbolsPopup" class="popup">
+  <div class="popupBox">
+    <h2>Choose Symbol</h2>
+    <input type="text" id="symbolSearch" placeholder="Search symbol...">
+    <table id="symbolTable"></table>
+    <button onclick="closeSymbolsPopup()">Close</button>
+  </div>
+</div>
 </body>
 </html>
