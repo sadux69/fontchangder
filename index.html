@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>SADU Ultimate Font Changer</title>
 
+<!-- Default fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&family=Pacifico&family=Orbitron&family=Monoton&family=Lobster&family=Bangers&family=Anton&family=Comfortaa&family=Rubik+Glitch&family=Silkscreen&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <style>
-
 body{
 margin:0;
 min-height:100vh;
@@ -25,85 +24,44 @@ background: linear-gradient(270deg,#ff0000,#000,#ff0000);
 background-size:600% 600%;
 animation:bg 15s infinite;
 }
-
 @keyframes bg{
 0%{background-position:0%}
 50%{background-position:100%}
 100%{background-position:0%}
 }
-
-h1{
-font-size:40px;
-}
-
+h1{font-size:40px;margin-bottom:15px;}
 .controls{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
+display:flex;flex-wrap:wrap;justify-content:center;
 background:rgba(255,255,255,0.05);
 backdrop-filter:blur(10px);
-padding:10px;
-border-radius:20px;
+padding:10px;border-radius:20px;
 }
-
 input,button{
-padding:10px;
-margin:5px;
-border-radius:20px;
-border:1px solid rgba(255,255,255,0.3);
-background:rgba(255,255,255,0.1);
-color:white;
-}
-
-#text{
-font-size:50px;
-margin-top:20px;
-}
-
-/* popup */
-
-.popup{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.7);
-display:none;
-justify-content:center;
-align-items:center;
-}
-
-.popupBox{
-background:rgba(255,255,255,0.1);
-padding:20px;
-border-radius:15px;
-backdrop-filter:blur(15px);
-max-height:70vh;
-overflow:auto;
-}
-
-.popup td{
-padding:10px;
+padding:10px;margin:5px;
+border-radius:20px;border:1px solid rgba(255,255,255,0.3);
+background:rgba(255,255,255,0.1);color:white;
 cursor:pointer;
-border-bottom:1px solid white;
 }
-
-.popup td:hover{
-background:rgba(255,255,255,0.2);
+#text{
+font-size:50px;margin-top:20px;
+text-align:center;
 }
-
-canvas{
-position:fixed;
-top:0;
-left:0;
-z-index:-1;
+.popup{
+position:fixed;top:0;left:0;width:100%;height:100%;
+background:rgba(0,0,0,0.7);
+display:none;justify-content:center;align-items:center;
 }
-
+.popupBox{
+background:rgba(255,255,255,0.1);padding:20px;border-radius:15px;
+backdrop-filter:blur(15px);max-height:70vh;overflow:auto;color:white;
+}
+.popup td{
+padding:10px;cursor:pointer;border-bottom:1px solid white;
+}
+.popup td:hover{background:rgba(255,255,255,0.2);}
+canvas{position:fixed;top:0;left:0;z-index:-1;}
 </style>
-
 </head>
-
 <body>
 
 <canvas id="bg"></canvas>
@@ -111,129 +69,112 @@ z-index:-1;
 <h1>SADU Font Changer</h1>
 
 <div class="controls">
-
 <input id="inputText" placeholder="Type text">
-
 <button id="openFonts">Fonts</button>
-
 <input type="color" id="colorPicker">
-
 <input type="range" id="sizeSlider" min="20" max="120" value="50">
-
+<button id="copyBtn">Copy</button>
 <button id="saveBtn">Save</button>
-
 </div>
 
 <div id="text">Hello</div>
 
+<!-- Font popup -->
 <div id="fontPopup" class="popup">
-
 <div class="popupBox">
-
 <h2>Choose Font</h2>
-
-<table>
-
-<tr><td onclick="setFont('Poppins')" style="font-family:Poppins">Poppins</td></tr>
-<tr><td onclick="setFont('Roboto')" style="font-family:Roboto">Roboto</td></tr>
-<tr><td onclick="setFont('Pacifico')" style="font-family:Pacifico">Pacifico</td></tr>
-<tr><td onclick="setFont('Orbitron')" style="font-family:Orbitron">Orbitron</td></tr>
-<tr><td onclick="setFont('Monoton')" style="font-family:Monoton">Monoton</td></tr>
-<tr><td onclick="setFont('Lobster')" style="font-family:Lobster">Lobster</td></tr>
-<tr><td onclick="setFont('Bangers')" style="font-family:Bangers">Bangers</td></tr>
-<tr><td onclick="setFont('Anton')" style="font-family:Anton">Anton</td></tr>
-<tr><td onclick="setFont('Comfortaa')" style="font-family:Comfortaa">Comfortaa</td></tr>
-<tr><td onclick="setFont('Rubik Glitch')" style="font-family:'Rubik Glitch'">Rubik Glitch</td></tr>
-<tr><td onclick="setFont('Silkscreen')" style="font-family:Silkscreen">Silkscreen</td></tr>
-
+<table id="fontTable">
+<!-- Fonts will be added dynamically -->
 </table>
-
 <br>
-
+<input id="addFontInput" placeholder="Add Google Font Name (Ex: Lobster)">
+<button id="addFontBtn">Add Font</button>
+<br><br>
 <button onclick="closePopup()">Close</button>
-
 </div>
 </div>
 
 <script>
+// --- Basic controls
+const inputText=document.getElementById("inputText");
+const text=document.getElementById("text");
+const colorPicker=document.getElementById("colorPicker");
+const sizeSlider=document.getElementById("sizeSlider");
+const copyBtn=document.getElementById("copyBtn");
+const saveBtn=document.getElementById("saveBtn");
 
-inputText.oninput=()=>{
-text.innerText=inputText.value
-}
+inputText.oninput=()=>text.innerText=inputText.value;
+colorPicker.oninput=()=>text.style.color=colorPicker.value;
+sizeSlider.oninput=()=>text.style.fontSize=sizeSlider.value+"px";
 
-colorPicker.oninput=()=>{
-text.style.color=colorPicker.value
-}
-
-sizeSlider.oninput=()=>{
-text.style.fontSize=sizeSlider.value+"px"
-}
-
-openFonts.onclick=()=>{
-fontPopup.style.display="flex"
-}
-
-function closePopup(){
-fontPopup.style.display="none"
-}
-
-function setFont(f){
-text.style.fontFamily=f
-closePopup()
+copyBtn.onclick=()=>{
+navigator.clipboard.writeText(text.innerText);
+alert("Text copied!");
 }
 
 saveBtn.onclick=()=>{
 html2canvas(text).then(c=>{
-let a=document.createElement("a")
-a.href=c.toDataURL()
-a.download="text.png"
-a.click()
-})
+let a=document.createElement("a");
+a.href=c.toDataURL();a.download="text.png";a.click();
+});
 }
 
+// --- Popup font menu
+const fontPopup=document.getElementById("fontPopup");
+document.getElementById("openFonts").onclick=()=>fontPopup.style.display="flex";
+function closePopup(){fontPopup.style.display="none";}
 
-/* bubble background */
+const fontTable=document.getElementById("fontTable");
 
-let canvas=document.getElementById("bg")
-let ctx=canvas.getContext("2d")
+// --- Default fonts list
+let fonts=["Poppins","Roboto","Pacifico","Orbitron","Monoton","Lobster","Bangers","Anton","Comfortaa","Rubik Glitch","Silkscreen"];
+function renderFonts(){
+fontTable.innerHTML="";
+fonts.forEach(f=>{
+let row=document.createElement("tr");
+row.innerHTML=`<td style="font-family:'${f}'" onclick="setFont('${f}')">${f}</td>`;
+fontTable.appendChild(row);
+});
+}
+renderFonts();
 
-canvas.width=innerWidth
-canvas.height=innerHeight
-
-let bubbles=[]
-
-for(let i=0;i<120;i++){
-bubbles.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:Math.random()*3+1,
-dy:Math.random()+0.3
-})
+function setFont(f){
+text.style.fontFamily=f;
+closePopup();
 }
 
+// --- Add font dynamically
+const addFontInput=document.getElementById("addFontInput");
+document.getElementById("addFontBtn").onclick=()=>{
+let name=addFontInput.value.trim();
+if(!name) return;
+if(!fonts.includes(name)) fonts.push(name);
+// Add Google Fonts link dynamically
+let link=document.createElement("link");
+link.rel="stylesheet";
+link.href="https://fonts.googleapis.com/css2?family="+name.replace(" ","+")+"&display=swap";
+document.head.appendChild(link);
+renderFonts();
+addFontInput.value="";
+}
+
+// --- Bubble background
+let canvas=document.getElementById("bg");
+let ctx=canvas.getContext("2d");
+canvas.width=innerWidth;canvas.height=innerHeight;
+let bubbles=[];
+for(let i=0;i<120;i++){bubbles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*3+1,dy:Math.random()+0.3});}
 function draw(){
-
-ctx.clearRect(0,0,canvas.width,canvas.height)
-
+ctx.clearRect(0,0,canvas.width,canvas.height);
 bubbles.forEach(b=>{
-
-ctx.beginPath()
-ctx.arc(b.x,b.y,b.r,0,Math.PI*2)
-ctx.fillStyle="white"
-ctx.fill()
-
-b.y-=b.dy
-
-if(b.y<0){
-b.y=canvas.height
+ctx.beginPath();
+ctx.arc(b.x,b.y,b.r,0,Math.PI*2);
+ctx.fillStyle="white";ctx.fill();
+b.y-=b.dy;if(b.y<0)b.y=canvas.height;
+});
+requestAnimationFrame(draw);
 }
-
-})
-
-requestAnimationFrame(draw)
-}
-
-draw()
+draw();
 
 </script>
 
