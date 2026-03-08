@@ -1,9 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>SADU PARTY MODE</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala&family=Baloo+2&family=Roboto&family=Pacifico&family=Orbitron&family=Monoton&family=Poppins&family=Lobster&family=Bangers&family=Anton&family=Comfortaa&family=Rubik+Glitch&family=Silkscreen&display=swap" rel="stylesheet">
+<title>SADU Ultimate Font Changer</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&family=Pacifico&family=Orbitron&family=Monoton&family=Lobster&family=Bangers&family=Anton&family=Comfortaa&family=Rubik+Glitch&family=Silkscreen&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
@@ -19,96 +21,47 @@ justify-content:center;
 font-family:Poppins;
 color:white;
 overflow:hidden;
-
-background: linear-gradient(270deg,#ff0000,#000000,#ff0000);
+background: linear-gradient(270deg,#ff0000,#000,#ff0000);
 background-size:600% 600%;
 animation:bg 15s infinite;
 }
 
 @keyframes bg{
-0%{background-position:0% 50%}
-50%{background-position:100% 50%}
-100%{background-position:0% 50%}
-}
-
-canvas{
-position:fixed;
-top:0;
-left:0;
-z-index:0;
-pointer-events:none;
+0%{background-position:0%}
+50%{background-position:100%}
+100%{background-position:0%}
 }
 
 h1{
-z-index:1;
+font-size:40px;
 }
 
 .controls{
-z-index:1;
 display:flex;
 flex-wrap:wrap;
 justify-content:center;
-}
-input, select, button{
-    padding:10px 15px;
-    font-size:18px;
-    border-radius:25px;
-    border:1px solid rgba(255,255,255,0.4);
-    margin:10px;
-    outline:none;
-    z-index:1;
-    position: relative;
-
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-
-    color:white;
-
-    box-shadow:
-        inset 0 0 10px rgba(255,255,255,0.5),
-        0 0 10px rgba(255,255,255,0.3);
-
-    transition:0.3s;
-
-input:hover, select:hover, button:hover{
-    background: rgba(255,255,255,0.2);
-    box-shadow:
-        inset 0 0 15px rgba(255,255,255,0.8),
-        0 0 15px rgba(255,255,255,0.6);
-    transform: scale(1.05);
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(10px);
+padding:10px;
+border-radius:20px;
 }
 
-.controls{
-    backdrop-filter: blur(15px);
-    background: rgba(255,255,255,0.05);
-    padding:15px;
-    border-radius:20px;
-    box-shadow:0 0 20px rgba(255,255,255,0.2);
+input,button{
+padding:10px;
+margin:5px;
+border-radius:20px;
+border:1px solid rgba(255,255,255,0.3);
+background:rgba(255,255,255,0.1);
+color:white;
 }
 
 #text{
-font-size:60px;
-z-index:1;
-text-shadow:2px 2px 10px black;
-transition:0.2s;
+font-size:50px;
+margin-top:20px;
 }
 
-#text:hover{
-transform:scale(1.1);
-}
+/* popup */
 
-.glitter{
-background:linear-gradient(90deg,#fff,#ffd700,#fff);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-animation:g 2s infinite;
-}
-
-@keyframes g{
-0%{background-position:0%}
-100%{background-position:100%}
-}
 .popup{
 position:fixed;
 top:0;
@@ -119,180 +72,60 @@ background:rgba(0,0,0,0.7);
 display:none;
 justify-content:center;
 align-items:center;
-z-index:5;
 }
 
 .popupBox{
 background:rgba(255,255,255,0.1);
-backdrop-filter:blur(15px);
 padding:20px;
 border-radius:15px;
-color:white;
+backdrop-filter:blur(15px);
 max-height:70vh;
 overflow:auto;
 }
 
-.popup table{
-border-collapse:collapse;
-width:200px;
-}
-
 .popup td{
 padding:10px;
-border-bottom:1px solid white;
 cursor:pointer;
+border-bottom:1px solid white;
 }
 
 .popup td:hover{
 background:rgba(255,255,255,0.2);
 }
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
+}
+
 </style>
+
 </head>
+
 <body>
 
-<canvas id="fx"></canvas>
+<canvas id="bg"></canvas>
 
-<audio id="music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" loop></audio>
-
-<h1>🔥 SADU PARTY MODE 🔥</h1>
+<h1>SADU Font Changer</h1>
 
 <div class="controls">
 
-<input id="inputText" placeholder="Type">
+<input id="inputText" placeholder="Type text">
 
-<div>
-<button id="openFonts">Choose Font</button>
-</div>
-<option value="Poppins">Poppins</option>
-<option value="Roboto">Roboto</option>
-<option value="Pacifico">Pacifico</option>
-<option value="Orbitron">Orbitron</option>
-<option value="Monoton">Monoton</option>
-<option value="Noto Sans Sinhala">Noto Sans Sinhala</option>
-<option value="Baloo 2">Baloo 2</option>
+<button id="openFonts">Fonts</button>
 
-<option value="Lobster">Lobster</option>
-<option value="Bangers">Bangers</option>
-<option value="Anton">Anton</option>
-<option value="Comfortaa">Comfortaa</option>
-<option value="Rubik Glitch">Rubik Glitch</option>
-<option value="Silkscreen">Silkscreen</option>
+<input type="color" id="colorPicker">
 
-<option value="Permanent Marker">Permanent Marker</option>
-<option value="Audiowide">Audiowide</option>
-<option value="Righteous">Righteous</option>
-<option value="Press Start 2P">Press Start 2P</option>
-<option value="Creepster">Creepster</option>
-<option value="Fredoka">Fredoka</option>
-<option value="Indie Flower">Indie Flower</option>
-<option value="Shadows Into Light">Shadows Into Light</option>
-<option value="Play">Play</option>
-<option value="Rajdhani">Rajdhani</option>
-<option value="Exo">Exo</option>
-</select>
+<input type="range" id="sizeSlider" min="20" max="120" value="50">
 
-<input type="color" id="color">
-
-<input type="range" min="20" max="120" value="60" id="size">
-
-<label>Glitter</label>
-<input type="checkbox" id="gl">
-
-<button id="save">Save</button>
+<button id="saveBtn">Save</button>
 
 </div>
 
-<div id="text">ආයුබෝවන්</div>
+<div id="text">Hello</div>
 
-<script>
-
-let text=document.getElementById("text")
-
-inputText.oninput=()=>text.innerText=inputText.value
-
-fontSelect.onchange=()=>text.style.fontFamily=fontSelect.value
-
-color.oninput=()=>text.style.color=color.value
-
-size.oninput=()=>text.style.fontSize=size.value+"px"
-
-gl.onchange=()=>{
-if(gl.checked)text.classList.add("glitter")
-else text.classList.remove("glitter")
-}
-
-save.onclick=()=>{
-html2canvas(text).then(c=>{
-let a=document.createElement("a")
-a.href=c.toDataURL()
-a.download="text.png"
-a.click()
-})
-}
-
-document.body.onclick=()=>{
-music.play()
-}
-
-//// CONFETTI + SPARKLES
-
-let c=document.getElementById("fx")
-let x=c.getContext("2d")
-
-c.width=innerWidth
-c.height=innerHeight
-
-let p=[]
-
-for(let i=0;i<150;i++){
-p.push({
-x:Math.random()*c.width,
-y:Math.random()*c.height,
-r:Math.random()*3,
-dx:(Math.random()-0.5)*1,
-dy:(Math.random()-0.5)*1
-})
-}
-
-function draw(){
-
-x.clearRect(0,0,c.width,c.height)
-
-p.forEach(a=>{
-
-x.beginPath()
-x.arc(a.x,a.y,a.r,0,6.28)
-x.fillStyle="white"
-x.fill()
-
-a.x+=a.dx
-a.y+=a.dy
-
-if(a.x<0)a.x=c.width
-if(a.x>c.width)a.x=0
-if(a.y<0)a.y=c.height
-if(a.y>c.height)a.y=0
-
-})
-
-requestAnimationFrame(draw)
-
-}
-
-draw()
-document.getElementById("openFonts").onclick = function(){
-document.getElementById("fontPopup").style.display="flex";
-}
-
-function closePopup(){
-document.getElementById("fontPopup").style.display="none";
-}
-
-function setFont(f){
-document.getElementById("text").style.fontFamily=f;
-closePopup();
-}
-</script>
 <div id="fontPopup" class="popup">
 
 <div class="popupBox">
@@ -315,9 +148,94 @@ closePopup();
 
 </table>
 
+<br>
+
 <button onclick="closePopup()">Close</button>
 
 </div>
 </div>
+
+<script>
+
+inputText.oninput=()=>{
+text.innerText=inputText.value
+}
+
+colorPicker.oninput=()=>{
+text.style.color=colorPicker.value
+}
+
+sizeSlider.oninput=()=>{
+text.style.fontSize=sizeSlider.value+"px"
+}
+
+openFonts.onclick=()=>{
+fontPopup.style.display="flex"
+}
+
+function closePopup(){
+fontPopup.style.display="none"
+}
+
+function setFont(f){
+text.style.fontFamily=f
+closePopup()
+}
+
+saveBtn.onclick=()=>{
+html2canvas(text).then(c=>{
+let a=document.createElement("a")
+a.href=c.toDataURL()
+a.download="text.png"
+a.click()
+})
+}
+
+
+/* bubble background */
+
+let canvas=document.getElementById("bg")
+let ctx=canvas.getContext("2d")
+
+canvas.width=innerWidth
+canvas.height=innerHeight
+
+let bubbles=[]
+
+for(let i=0;i<120;i++){
+bubbles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*3+1,
+dy:Math.random()+0.3
+})
+}
+
+function draw(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height)
+
+bubbles.forEach(b=>{
+
+ctx.beginPath()
+ctx.arc(b.x,b.y,b.r,0,Math.PI*2)
+ctx.fillStyle="white"
+ctx.fill()
+
+b.y-=b.dy
+
+if(b.y<0){
+b.y=canvas.height
+}
+
+})
+
+requestAnimationFrame(draw)
+}
+
+draw()
+
+</script>
+
 </body>
 </html>
