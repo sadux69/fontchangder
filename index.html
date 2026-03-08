@@ -2,16 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>SADU Ultra Pro Font Changer</title>
+<title>SADU Ultimate Font Changer</title>
 
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala&family=Baloo+2&family=Roboto&family=Pacifico&family=Orbitron&family=Monoton&family=Poppins&display=swap" rel="stylesheet">
 
-<!-- html2canvas library -->
+<!-- html2canvas -->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <style>
-/* Body with animated gradient */
 body{
     margin:0;
     min-height:100vh;
@@ -26,46 +25,29 @@ body{
     background-size: 600% 600%;
     animation: gradientBG 20s ease infinite;
 }
-
 @keyframes gradientBG{
     0%{background-position:0% 50%;}
     50%{background-position:100% 50%;}
     100%{background-position:0% 50%;}
 }
-
-/* Glitter particles canvas */
 #glitterCanvas{
-    position: fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
+    position:fixed;
+    top:0;left:0;width:100%;height:100%;
     pointer-events:none;
     z-index:0;
 }
-
-/* Heading */
 h1{
     font-size:50px;
     margin-bottom:20px;
     text-shadow:2px 2px 10px #000;
-    z-index:1;
-    position: relative;
+    z-index:1;position: relative;
 }
-
-/* Input/select/button styling */
 input, select, button{
     padding:10px 15px;
     font-size:18px;
-    border-radius:8px;
-    border:none;
-    margin:10px;
-    outline:none;
-    z-index:1;
-    position: relative;
+    border-radius:8px;border:none;margin:10px;outline:none;
+    z-index:1;position: relative;
 }
-
-/* Text display */
 #text{
     font-size:50px;
     margin-top:30px;
@@ -74,67 +56,53 @@ input, select, button{
     position: relative;
     z-index:1;
 }
-
-/* Glitter text effect */
 .glitter{
     background: linear-gradient(90deg, #fff, #ffd700, #fff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: glitterAnim 2s infinite;
 }
-
 @keyframes glitterAnim{
     0%{background-position:0% 0%;}
     50%{background-position:100% 0%;}
     100%{background-position:0% 0%;}
 }
-
 #text:hover{
     transform: scale(1.08);
 }
-
-/* Controls */
 .controls{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    margin-bottom:20px;
-    z-index:1;
-    position: relative;
+    display:flex;flex-wrap:wrap;justify-content:center;margin-bottom:20px;
+    z-index:1;position: relative;
 }
-
-.controls div{
-    margin:5px 10px;
-}
+.controls div{margin:5px 10px;}
 </style>
 </head>
-
 <body>
 
 <canvas id="glitterCanvas"></canvas>
 
-<h1>SADU Ultra Pro Font Changer</h1>
+<audio id="bgMusic" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" loop autoplay></audio>
+
+<h1>SADU Ultimate Font Changer</h1>
 
 <div class="controls">
-    <div><input type="text" id="inputText" placeholder="Type here..."></div>
-
-    <div>
-        <select id="fontSelect">
-            <option value="Poppins">Poppins</option>
-            <option value="Roboto">Roboto</option>
-            <option value="Pacifico">Pacifico</option>
-            <option value="Orbitron">Orbitron</option>
-            <option value="Monoton">Monoton</option>
-            <option value="Noto Sans Sinhala">Noto Sans Sinhala</option>
-            <option value="Baloo 2">Baloo 2</option>
-        </select>
-    </div>
-
-    <div><label>Text Color:</label><input type="color" id="colorPicker" value="#ffffff"></div>
-    <div><label>Font Size:</label><input type="range" id="fontSizeSlider" min="20" max="100" value="50"></div>
-    <div><label>Text Shadow:</label><input type="checkbox" id="shadowToggle" checked></div>
-    <div><label>Glitter Effect:</label><input type="checkbox" id="glitterToggle"></div>
-    <div><button id="saveBtn">Save as Image</button></div>
+<div><input type="text" id="inputText" placeholder="Type here..."></div>
+<div>
+<select id="fontSelect">
+<option value="Poppins">Poppins</option>
+<option value="Roboto">Roboto</option>
+<option value="Pacifico">Pacifico</option>
+<option value="Orbitron">Orbitron</option>
+<option value="Monoton">Monoton</option>
+<option value="Noto Sans Sinhala">Noto Sans Sinhala</option>
+<option value="Baloo 2">Baloo 2</option>
+</select>
+</div>
+<div><label>Text Color:</label><input type="color" id="colorPicker" value="#ffffff"></div>
+<div><label>Font Size:</label><input type="range" id="fontSizeSlider" min="20" max="100" value="50"></div>
+<div><label>Text Shadow:</label><input type="checkbox" id="shadowToggle" checked></div>
+<div><label>Glitter Effect:</label><input type="checkbox" id="glitterToggle"></div>
+<div><button id="saveBtn">Save as Image</button></div>
 </div>
 
 <div id="text">ආයුබෝවන්!</div>
@@ -144,22 +112,18 @@ input, select, button{
 document.getElementById("inputText").addEventListener("input", function(){
     document.getElementById("text").innerText = this.value;
 });
-
 // --- Change Font ---
 document.getElementById("fontSelect").addEventListener("change", function(){
     document.getElementById("text").style.fontFamily = this.value;
 });
-
 // --- Text color ---
 document.getElementById("colorPicker").addEventListener("input", function(){
     document.getElementById("text").style.color = this.value;
 });
-
 // --- Font size ---
 document.getElementById("fontSizeSlider").addEventListener("input", function(){
     document.getElementById("text").style.fontSize = this.value + "px";
 });
-
 // --- Text shadow toggle ---
 document.getElementById("shadowToggle").addEventListener("change", function(){
     if(this.checked){
@@ -168,7 +132,6 @@ document.getElementById("shadowToggle").addEventListener("change", function(){
         document.getElementById("text").style.textShadow = "none";
     }
 });
-
 // --- Glitter toggle ---
 document.getElementById("glitterToggle").addEventListener("change", function(){
     if(this.checked){
@@ -177,7 +140,6 @@ document.getElementById("glitterToggle").addEventListener("change", function(){
         document.getElementById("text").classList.remove("glitter");
     }
 });
-
 // --- Save as image ---
 document.getElementById("saveBtn").addEventListener("click", function(){
     html2canvas(document.getElementById("text")).then(function(canvas){
@@ -195,15 +157,15 @@ let w = canvas.width = window.innerWidth;
 let h = canvas.height = window.innerHeight;
 
 const particles = [];
-const particleCount = 120;
+const particleCount = 150;
 
 for(let i=0;i<particleCount;i++){
     particles.push({
         x: Math.random()*w,
         y: Math.random()*h,
         r: Math.random()*2+1,
-        dx: (Math.random()-0.5)*0.5,
-        dy: (Math.random()-0.5)*0.5
+        dx: (Math.random()-0.5)*0.7,
+        dy: (Math.random()-0.5)*0.7
     });
 }
 
@@ -212,11 +174,10 @@ function animate(){
     particles.forEach(p=>{
         ctx.beginPath();
         ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-        ctx.fillStyle="rgba(255,255,255,0.8)";
+        ctx.fillStyle="rgba(255,255,255,0.9)";
         ctx.fill();
         p.x += p.dx;
         p.y += p.dy;
-
         if(p.x<0)p.x=w;
         if(p.x>w)p.x=0;
         if(p.y<0)p.y=h;
@@ -225,11 +186,16 @@ function animate(){
     requestAnimationFrame(animate);
 }
 animate();
-
-// --- Resize canvas on window resize ---
 window.addEventListener("resize",()=>{
     w=canvas.width=window.innerWidth;
     h=canvas.height=window.innerHeight;
+});
+
+// --- Optional: click to toggle music ---
+document.body.addEventListener("click", function(){
+    const audio = document.getElementById("bgMusic");
+    if(audio.paused) audio.play();
+    else audio.pause();
 });
 </script>
 
