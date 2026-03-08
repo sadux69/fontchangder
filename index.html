@@ -74,13 +74,7 @@ canvas{position:fixed;top:0;left:0;z-index:-1;}
 }
 @keyframes gradAnim{0%{background-position:0%}50%{background-position:100%}100%{background-position:0%}}
 
-.neonGlow{
-  text-shadow:
-    0 0 5px #0ff,
-    0 0 10px #0ff,
-    0 0 20px #0ff,
-    0 0 40px #0ff;
-}
+
 </style>
 </head>
 <body>
@@ -96,14 +90,13 @@ canvas{position:fixed;top:0;left:0;z-index:-1;}
 
 <!-- Home Section -->
 <section id="home" class="active">
-<h1>SADU Ultimate Pro</h1>
+<h1>fontAI PRO</h1>
 <div class="controls">
 <input id="inputText" placeholder="Type text">
 <button id="openFonts">Fonts</button>
 <input type="color" id="colorPicker">
 <input type="range" id="sizeSlider" min="20" max="120" value="50">
 <button id="gradientBtn">Gradient</button>
-<button id="neonBtn">Neon Glow</button>
 <button id="copyBtn">Copy</button>
 <button id="saveBtn">Save</button>
 </div>
@@ -118,9 +111,9 @@ canvas{position:fixed;top:0;left:0;z-index:-1;}
 
 <!-- Contact Section -->
 <section id="contact">
-<h1>Contact</h1>
-<p>Email: sadu@example.com</p>
-<p>Instagram: @sadu_fonts</p>
+<h1>Contact</
+<p>Email:supasansandaru61@gmail.com</p>
+<p>Instagram: @mr_sadu2010</p>
 </section>
 
 <!-- Font popup -->
@@ -152,13 +145,11 @@ const sizeSlider=document.getElementById("sizeSlider");
 const copyBtn=document.getElementById("copyBtn");
 const saveBtn=document.getElementById("saveBtn");
 const gradientBtn=document.getElementById("gradientBtn");
-const neonBtn=document.getElementById("neonBtn");
 
 inputText.oninput=()=>text.innerText=inputText.value;
 colorPicker.oninput=()=>text.style.color=colorPicker.value;
 sizeSlider.oninput=()=>text.style.fontSize=sizeSlider.value+"px";
 gradientBtn.onclick=()=>text.classList.toggle("gradientText");
-neonBtn.onclick=()=>text.classList.toggle("neonGlow");
 
 copyBtn.onclick=()=>{navigator.clipboard.writeText(text.innerText);alert("Text copied!");}
 saveBtn.onclick=()=>{html2canvas(text).then(c=>{let a=document.createElement("a");a.href=c.toDataURL();a.download="text.png";a.click();});}
