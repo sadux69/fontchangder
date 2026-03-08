@@ -2,254 +2,207 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>SADU Ultimate Font Changer</title>
+<title>SADU Font Changer Ultimate Pro</title>
 
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala&family=Baloo+2&family=Roboto&family=Pacifico&family=Orbitron&family=Monoton&family=Poppins&display=swap" rel="stylesheet">
+<!-- Google Fonts + Sinhala -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&family=Pacifico&family=Orbitron&family=Monoton&family=Lobster&family=Bangers&family=Anton&family=Comfortaa&family=Rubik+Glitch&family=Silkscreen&family=Noto+Sans+Sinhala&family=Baloo+2&display=swap" rel="stylesheet">
 
-<!-- html2canvas -->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <style>
 body{
-    margin:0;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    font-family:Poppins;
-    color:white;
-    overflow:hidden;
-    background: linear-gradient(270deg, #ff0000, #000000, #ff0000);
-    background-size: 600% 600%;
-    animation: gradientBG 20s ease infinite;
+  margin:0;font-family:Poppins;color:white;overflow:hidden;
+  background: linear-gradient(270deg,#ff0000,#000,#ff0000);
+  background-size:600% 600%;animation:bg 20s linear infinite;
+  display:flex;flex-direction:column;align-items:center;
 }
-@keyframes gradientBG{
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
-}
-#glitterCanvas{
-    position:fixed;
-    top:0;left:0;width:100%;height:100%;
-    pointer-events:none;
-    z-index:0;
-}
-h1{
-    font-size:50px;
-    margin-bottom:20px;
-    text-shadow:2px 2px 10px #000;
-    z-index:1;position: relative;
-}
-input, select, button{
-    padding:10px 15px;
-    font-size:18px;
-    border-radius:8px;border:none;margin:10px;outline:none;
-    background: rgba(255,255,255,0.1);
-    color:white;
-    backdrop-filter: blur(5px);
-    cursor:pointer;
-    z-index:1;position: relative;
-}
-#text{
-    font-size:50px;
-    margin-top:30px;
-    text-shadow:2px 2px 8px #000;
-    transition: all 0.3s ease;
-    position: relative;
-    z-index:1;
-}
-.glitter{
-    background: linear-gradient(90deg, #fff, #ffd700, #fff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: glitterAnim 2s infinite;
-}
-@keyframes glitterAnim{
-    0%{background-position:0% 0%;}
-    50%{background-position:100% 0%;}
-    100%{background-position:0% 0%;}
-}
-#text:hover{
-    transform: scale(1.08);
-}
-.controls{
-    display:flex;flex-wrap:wrap;justify-content:center;margin-bottom:20px;
-    z-index:1;position: relative;
-}
-.controls div{margin:5px 10px;}
+@keyframes bg{0%{background-position:0%}50%{background-position:100%}100%{background-position:0%}}
 
-/* Symbols popup */
-#symbolsPopup{
-    display:none;position:fixed;top:0;left:0;width:100%;height:100%;
-    background:rgba(0,0,0,0.8);justify-content:center;align-items:center;z-index:20;
+nav{
+  width:100%;display:flex;justify-content:center;
+  background:rgba(0,0,0,0.3);padding:10px;backdrop-filter:blur(5px);
+  position:sticky;top:0;z-index:10;
 }
-#symbolsPopup .popupBox{
-    background:rgba(0,0,0,0.2);padding:20px;border-radius:15px;
-    backdrop-filter:blur(15px);max-height:70vh;overflow:auto;color:white;
+nav button{
+  margin:0 10px;padding:10px 20px;border:none;border-radius:20px;
+  background:rgba(255,255,255,0.1);color:white;cursor:pointer;backdrop-filter:blur(5px);
 }
-#symbolTable td{
-    padding:10px;cursor:pointer;border-bottom:1px solid white;
+nav button:hover{background:rgba(255,255,255,0.2);}
+
+section{
+  display:none;width:90%;max-width:800px;margin-top:20px;text-align:center;
 }
-#symbolTable td:hover{background:rgba(255,255,255,0.2);}
-#symbolSearch{
-    padding:5px;width:90%;margin-bottom:10px;border-radius:10px;border:none;
+section.active{display:block;}
+
+.controls{
+  display:flex;flex-wrap:wrap;justify-content:center;
+  background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);
+  padding:10px;border-radius:20px;margin-bottom:20px;
+}
+
+input,button{
+  padding:10px;margin:5px;border-radius:20px;
+  border:1px solid rgba(255,255,255,0.3);
+  background:rgba(255,255,255,0.1);color:white;cursor:pointer;
+  backdrop-filter:blur(5px);
+}
+
+#text{
+  font-size:50px;margin-top:20px;text-align:center;
+  text-shadow:2px 2px 15px #0ff;
+  transition:0.3s;
+}
+.popup{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,0.8);display:none;justify-content:center;align-items:center;
+}
+.popupBox{
+  background:rgba(0,0,0,0.2);padding:20px;border-radius:15px;
+  backdrop-filter:blur(15px);max-height:70vh;overflow:auto;color:white;
+}
+.popup td{
+  padding:10px;cursor:pointer;border-bottom:1px solid white;
+}
+.popup td:hover{background:rgba(255,255,255,0.2);}
+#fontSearch{padding:5px;width:90%;margin-bottom:10px;border-radius:10px;border:none;}
+canvas{position:fixed;top:0;left:0;z-index:-1;}
+
+.gradientText{
+  background:linear-gradient(45deg,#ff0,#f0f,#0ff,#0f0,#f0f);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  animation:gradAnim 3s linear infinite;
+}
+@keyframes gradAnim{0%{background-position:0%}50%{background-position:100%}100%{background-position:0%}}
+
+.neonGlow{
+  text-shadow:
+    0 0 5px #0ff,
+    0 0 10px #0ff,
+    0 0 20px #0ff,
+    0 0 40px #0ff;
 }
 </style>
 </head>
 <body>
 
-<canvas id="glitterCanvas"></canvas>
+<canvas id="bg"></canvas>
 
-<audio id="bgMusic" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" loop autoplay></audio>
+<!-- Navbar -->
+<nav>
+<button onclick="showSection('home')">Home</button>
+<button onclick="showSection('about')">About</button>
+<button onclick="showSection('contact')">Contact</button>
+</nav>
 
-<h1>SADU Ultimate Font Changer</h1>
-
+<!-- Home Section -->
+<section id="home" class="active">
+<h1>SADU Ultimate Pro</h1>
 <div class="controls">
-<div><input type="text" id="inputText" placeholder="Type here..."></div>
-<div>
-<select id="fontSelect">
-<option value="Poppins">Poppins</option>
-<option value="Roboto">Roboto</option>
-<option value="Pacifico">Pacifico</option>
-<option value="Orbitron">Orbitron</option>
-<option value="Monoton">Monoton</option>
-<option value="Noto Sans Sinhala">Noto Sans Sinhala</option>
-<option value="Baloo 2">Baloo 2</option>
-</select>
+<input id="inputText" placeholder="Type text">
+<button id="openFonts">Fonts</button>
+<input type="color" id="colorPicker">
+<input type="range" id="sizeSlider" min="20" max="120" value="50">
+<button id="gradientBtn">Gradient</button>
+<button id="neonBtn">Neon Glow</button>
+<button id="copyBtn">Copy</button>
+<button id="saveBtn">Save</button>
 </div>
-<div><label>Text Color:</label><input type="color" id="colorPicker" value="#ffffff"></div>
-<div><label>Font Size:</label><input type="range" id="fontSizeSlider" min="20" max="100" value="50"></div>
-<div><label>Text Shadow:</label><input type="checkbox" id="shadowToggle" checked></div>
-<div><label>Glitter Effect:</label><input type="checkbox" id="glitterToggle"></div>
-<div><button id="saveBtn">Save as Image</button></div>
-<div><button onclick="openSymbolsPopup()">Symbols</button></div>
-</div>
-
 <div id="text">ආයුබෝවන්!</div>
+</section>
 
-<!-- Symbols Popup -->
-<div id="symbolsPopup" class="popup">
-  <div class="popupBox">
-    <h2>Choose Symbol</h2>
-    <input type="text" id="symbolSearch" placeholder="Search symbol...">
-    <table id="symbolTable"></table>
-    <button onclick="closeSymbolsPopup()">Close</button>
-  </div>
+<!-- About Section -->
+<section id="about">
+<h1>About</h1>
+<p>This is the most advanced online font changer with Sinhala support, neon glow, gradient, copy & save image.</p>
+</section>
+
+<!-- Contact Section -->
+<section id="contact">
+<h1>Contact</h1>
+<p>Email: sadu@example.com</p>
+<p>Instagram: @sadu_fonts</p>
+</section>
+
+<!-- Font popup -->
+<div id="fontPopup" class="popup">
+<div class="popupBox">
+<h2>Choose Font</h2>
+<input type="text" id="fontSearch" placeholder="Search font...">
+<table id="fontTable"></table>
+<br>
+<input id="addFontInput" placeholder="Add Google Font Name">
+<button id="addFontBtn">Add Font</button>
+<br><br>
+<button onclick="closePopup()">Close</button>
+</div>
 </div>
 
 <script>
-// --- Update Text ---
-document.getElementById("inputText").addEventListener("input", function(){
-    document.getElementById("text").innerText = this.value;
-});
-// --- Change Font ---
-document.getElementById("fontSelect").addEventListener("change", function(){
-    document.getElementById("text").style.fontFamily = this.value;
-});
-// --- Text color ---
-document.getElementById("colorPicker").addEventListener("input", function(){
-    document.getElementById("text").style.color = this.value;
-});
-// --- Font size ---
-document.getElementById("fontSizeSlider").addEventListener("input", function(){
-    document.getElementById("text").style.fontSize = this.value + "px";
-});
-// --- Text shadow toggle ---
-document.getElementById("shadowToggle").addEventListener("change", function(){
-    if(this.checked){
-        document.getElementById("text").style.textShadow = "2px 2px 8px #000";
-    } else {
-        document.getElementById("text").style.textShadow = "none";
-    }
-});
-// --- Glitter toggle ---
-document.getElementById("glitterToggle").addEventListener("change", function(){
-    if(this.checked){
-        document.getElementById("text").classList.add("glitter");
-    } else {
-        document.getElementById("text").classList.remove("glitter");
-    }
-});
-// --- Save as image ---
-document.getElementById("saveBtn").addEventListener("click", function(){
-    html2canvas(document.getElementById("text")).then(function(canvas){
-        let link = document.createElement("a");
-        link.download = "text-image.png";
-        link.href = canvas.toDataURL();
-        link.click();
-    });
-});
-
-// --- Glitter particles background ---
-const canvas = document.getElementById("glitterCanvas");
-const ctx = canvas.getContext("2d");
-let w = canvas.width = window.innerWidth;
-let h = canvas.height = window.innerHeight;
-
-const particles = [];
-const particleCount = 150;
-
-for(let i=0;i<particleCount;i++){
-    particles.push({
-        x: Math.random()*w,
-        y: Math.random()*h,
-        r: Math.random()*2+1,
-        dx: (Math.random()-0.5)*0.7,
-        dy: (Math.random()-0.5)*0.7
-    });
+// --- Page switch
+function showSection(id){
+document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
 }
 
-function animate(){
-    ctx.clearRect(0,0,w,h);
-    particles.forEach(p=>{
-        ctx.beginPath();
-        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-        ctx.fillStyle="rgba(255,255,255,0.9)";
-        ctx.fill();
-        p.x += p.dx;
-        p.y += p.dy;
-        if(p.x<0)p.x=w;
-        if(p.x>w)p.x=0;
-        if(p.y<0)p.y=h;
-        if(p.y>h)p.y=0;
-    });
-    requestAnimationFrame(animate);
-}
-animate();
-window.addEventListener("resize",()=>{ w=canvas.width=window.innerWidth; h=canvas.height=window.innerHeight; });
+// --- Controls
+const inputText=document.getElementById("inputText");
+const text=document.getElementById("text");
+const colorPicker=document.getElementById("colorPicker");
+const sizeSlider=document.getElementById("sizeSlider");
+const copyBtn=document.getElementById("copyBtn");
+const saveBtn=document.getElementById("saveBtn");
+const gradientBtn=document.getElementById("gradientBtn");
+const neonBtn=document.getElementById("neonBtn");
 
-// --- Optional: click to toggle music ---
-document.body.addEventListener("click", function(){
-    const audio = document.getElementById("bgMusic");
-    if(audio.paused) audio.play();
-    else audio.pause();
+inputText.oninput=()=>text.innerText=inputText.value;
+colorPicker.oninput=()=>text.style.color=colorPicker.value;
+sizeSlider.oninput=()=>text.style.fontSize=sizeSlider.value+"px";
+gradientBtn.onclick=()=>text.classList.toggle("gradientText");
+neonBtn.onclick=()=>text.classList.toggle("neonGlow");
+
+copyBtn.onclick=()=>{navigator.clipboard.writeText(text.innerText);alert("Text copied!");}
+saveBtn.onclick=()=>{html2canvas(text).then(c=>{let a=document.createElement("a");a.href=c.toDataURL();a.download="text.png";a.click();});}
+
+// --- Font popup
+const fontPopup=document.getElementById("fontPopup");
+document.getElementById("openFonts").onclick=()=>fontPopup.style.display="flex";
+function closePopup(){fontPopup.style.display="none";}
+const fontTable=document.getElementById("fontTable");
+let fonts=["Poppins","Roboto","Pacifico","Orbitron","Monoton","Lobster","Bangers","Anton","Comfortaa","Rubik Glitch","Silkscreen","Noto Sans Sinhala","Baloo 2"];
+
+function renderFonts(filter=""){
+fontTable.innerHTML="";
+fonts.filter(f=>f.toLowerCase().includes(filter.toLowerCase())).forEach(f=>{
+let row=document.createElement("tr");
+row.innerHTML=`<td style="font-family:'${f}'" onclick="setFont('${f}')">${f}</td>`;
+fontTable.appendChild(row);
 });
-
-// --- Symbols popup logic ---
-const symbolsPopup = document.getElementById("symbolsPopup");
-const symbolTable = document.getElementById("symbolTable");
-
-let symbols = ["★","☆","✦","✧","❤","❀","✿","☯","☀","☁","☂","☾","☽","⚡","☘","☕","❄","♞","♪","♫"];
-
-function renderSymbols(filter=""){
-    symbolTable.innerHTML="";
-    symbols.filter(s=>s.includes(filter)).forEach(s=>{
-        let row = document.createElement("tr");
-        row.innerHTML = `<td style="font-size:24px" onclick="addSymbol('${s}')">${s}</td>`;
-        symbolTable.appendChild(row);
-    });
 }
-function openSymbolsPopup(){ symbolsPopup.style.display="flex"; renderSymbols(); }
-function closeSymbolsPopup(){ symbolsPopup.style.display="none"; }
-function addSymbol(s){
-    const input = document.getElementById("inputText");
-    input.value += s;
-    document.getElementById("text").innerText = input.value;
-}
-document.getElementById("symbolSearch").oninput = ()=> renderSymbols(document.getElementById("symbolSearch").value);
+renderFonts();
 
+function setFont(f){text.style.fontFamily=f;closePopup();}
+
+// --- Search filter
+document.getElementById("fontSearch").oninput=()=>renderFonts(document.getElementById("fontSearch").value);
+
+// --- Add font dynamically
+document.getElementById("addFontBtn").onclick=()=>{
+let name=document.getElementById("addFontInput").value.trim();
+if(!name) return;if(!fonts.includes(name)) fonts.push(name);
+let link=document.createElement("link");link.rel="stylesheet";
+link.href="https://fonts.googleapis.com/css2?family="+name.replace(" ","+")+"&display=swap";
+document.head.appendChild(link);
+renderFonts();document.getElementById("addFontInput").value="";
+}
+
+// --- Bubble background
+let canvas=document.getElementById("bg");let ctx=canvas.getContext("2d");
+canvas.width=innerWidth;canvas.height=innerHeight;let bubbles=[];
+for(let i=0;i<150;i++){bubbles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*3+1,dy:Math.random()+0.3});}
+function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);
+bubbles.forEach(b=>{ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.fillStyle="white";ctx.fill();b.y-=b.dy;if(b.y<0)b.y=canvas.height;});
+requestAnimationFrame(draw);}
+draw();
 </script>
 
 </body>
